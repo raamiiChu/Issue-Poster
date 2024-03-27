@@ -18,9 +18,9 @@ const ThemeToggle = () => {
     return (
         <button className="group" onClick={switchTheme}>
             {theme === "light" ? (
-                <CiLight className="size-9 text-black group-hover:opacity-75" />
+                <CiLight className="size-9 text-black group-hover:opacity-50 transition-all duration-500" />
             ) : (
-                <LuMoonStar className="size-9 text-white group-hover:opacity-75" />
+                <LuMoonStar className="size-9 text-white group-hover:opacity-50 transition-all duration-500" />
             )}
         </button>
     );

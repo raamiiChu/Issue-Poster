@@ -7,9 +7,6 @@
     html {
         font-family: "Noto Sans TC", sans-serif;
     }
-    body {
-        transition: 0.5s all cubic-bezier(0.4, 0, 0.2, 1);
-    }
 
     .light {
         color: #000;
