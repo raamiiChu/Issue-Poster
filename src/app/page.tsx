@@ -1,22 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import RepoCards from "@/components/RepoCards/RepoCards";
+import { Repo } from "@/types";
 
 import axios from "axios";
 import useSWR from "swr";
 import { useSession } from "next-auth/react";
 import { useInView } from "react-intersection-observer";
 import Skeleton from "@/components/RepoCards/Skeleton";
-
-interface Repo {
-    id: number;
-    name: string;
-    owner: { login: string; html_url: string };
-    html_url: string;
-    description: string;
-    created_at: string;
-}
 
 const fetcher = async (url: string, token: string) => {
     try {
@@ -53,8 +44,6 @@ export default function Home() {
         ],
         ([url, token]) => fetcher(url, token)
     );
-    console.log(session);
-    console.log(repos);
 
     const {
         ref: mutateRef,
@@ -96,15 +85,14 @@ export default function Home() {
                 Your Repos
             </h1>
 
+            {(isLoading || isValidating) && canGetMoreData && <Skeleton />}
             <RepoCards repos={currRepo} />
 
             {error && (
-                <div className="col-span-full my-12 text-3xl text-center font-bold">
+                <div className="col-span-full my-12 text-3xl text-red-500 text-center font-bold">
                     Failed to Load Data
                 </div>
             )}
-
-            {(isLoading || isValidating) && canGetMoreData && <Skeleton />}
 
             {canGetMoreData ? (
                 <div
