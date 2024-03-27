@@ -22,3 +22,9 @@
         transition: 0.5s all cubic-bezier(0.4, 0, 0.2, 1);
     }
 }
+
+@layer components {
+    .prose-init {
+        @apply prose-hr:border-t-4;
+    }
+}
