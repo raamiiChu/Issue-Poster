@@ -13,20 +13,26 @@ export const GET = async (request: any) => {
     );
 
     if (!res) {
-        return new NextResponse("Client error", { status: 400 });
+        return new NextResponse("Client side error", { status: 400 });
     }
 
-    const { data, status, statusText } = res;
+    const { data, status } = res;
 
     switch (status) {
         case 200:
             return new NextResponse(JSON.stringify(data), { status });
-            break;
+        case 304:
+            return new NextResponse("Not modified", { status });
         case 401:
-            return new NextResponse(statusText, { status });
-            break;
+            return new NextResponse("Requires authentication", { status });
+        case 403:
+            return new NextResponse("Forbidden", { status });
+        case 422:
+            return new NextResponse(
+                "Validation failed, or the endpoint has been spammed.",
+                { status }
+            );
         default:
-            return new NextResponse("Client error", { status: 400 });
-            break;
+            return new NextResponse("Client side error", { status: 400 });
     }
 };
