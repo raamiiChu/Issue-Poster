@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Repo } from "@/types";
 
-import { FaLink } from "react-icons/fa";
+import { BsBoxArrowUpRight } from "react-icons/bs";
 import { format } from "date-fns";
 
 interface Params {
@@ -16,13 +16,20 @@ const RepoCards = ({ repos }: Params) => {
     return (
         <ul className="col-start-3 col-span-8 grid grid-cols-1 gap-y-5">
             {repos?.map((repo: Repo, index) => {
-                const { id, name, owner, html_url, description, created_at } =
-                    repo;
+                const {
+                    id,
+                    name,
+                    owner,
+                    html_url,
+                    description,
+                    open_issues_count,
+                    created_at,
+                } = repo;
 
                 return (
                     <li
                         key={id}
-                        className={`p-8 grid grid-cols-12 items-center gap-2.5 ${
+                        className={`p-8 grid grid-cols-12 items-center gap-2.5 rounded-lg ${
                             index % 2 === 1
                                 ? "bg-blue-200 dark:bg-blue-900"
                                 : "bg-slate-300 dark:bg-slate-800"
@@ -39,15 +46,18 @@ const RepoCards = ({ repos }: Params) => {
                                 href={html_url}
                                 title={name}
                                 target="blank"
-                                className="flex items-center hover:opacity-50 transition-all duration-500"
+                                className="flex items-center hover:opacity-50 transition-all"
                             >
-                                <FaLink className="text-xl" />
+                                <BsBoxArrowUpRight className="text-xl" />
                             </Link>
                         </section>
 
-                        <section className="col-span-6">
-                            <Link href={`/issues/${owner.login}/${name}`}>
-                                See Issues
+                        <section className="col-span-6 grid grid-cols-3">
+                            <Link
+                                href={`/issues/${owner.login}/${name}`}
+                                className="col-end-4 border border-black rounded text-center bg-white text-black font-bold hover:opacity-50 transition-all duration-500"
+                            >
+                                Issues: {open_issues_count}
                             </Link>
                         </section>
 
@@ -64,7 +74,7 @@ const RepoCards = ({ repos }: Params) => {
                                 <Link
                                     href={owner.html_url}
                                     target="blank"
-                                    className="size-6 relative hover:opacity-50 transition-all duration-500"
+                                    className="size-6 relative hover:opacity-50 transition-all"
                                 >
                                     <Image
                                         src={owner.avatar_url}
@@ -73,7 +83,11 @@ const RepoCards = ({ repos }: Params) => {
                                         className="rounded-full"
                                     />
                                 </Link>
-                                <span>{owner.login}</span>
+                                <Link href={owner.html_url}>
+                                    <span className="hover:underline underline-offset-2">
+                                        {owner.login}
+                                    </span>
+                                </Link>
                             </section>
 
                             <small className="text-sm">
