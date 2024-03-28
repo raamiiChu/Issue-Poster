@@ -1,9 +1,11 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import { useSession, signIn, signOut } from "next-auth/react";
 
 const GithubAuthButton = () => {
+    const router = useRouter();
     const { status } = useSession();
 
     if (status === "loading") {
@@ -22,6 +24,7 @@ const GithubAuthButton = () => {
             <button
                 className="col-span-2 px-5 py-1.5 border border-black rounded bg-white text-black font-bold hover:opacity-50 transition-all duration-500"
                 onClick={() => {
+                    router.push("/");
                     signOut();
                 }}
             >
