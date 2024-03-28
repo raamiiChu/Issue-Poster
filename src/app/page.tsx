@@ -1,13 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import RepoCards from "@/components/RepoCards/RepoCards";
 import { Repo } from "@/types";
 
 import axios from "axios";
 import useSWR from "swr";
-import { useSession } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 import { useInView } from "react-intersection-observer";
+
 import Skeleton from "@/components/RepoCards/Skeleton";
+import RepoCards from "@/components/RepoCards/RepoCards";
 
 const fetcher = async (url: string, token: string) => {
     const { data, status } = await axios.get(url, {
@@ -67,16 +68,34 @@ export default function Home() {
         }
     }, [inView]);
 
+    useEffect(() => {
+        // Clear currRepos when component unmounts
+        return () => {
+            setCurrRepos([]);
+        };
+    }, []);
+
     if (status === "unauthenticated") {
         return (
-            <h2 className="min-h-screen col-span-full py-12 text-3xl text-center font-bold scroll-">
-                Please Login First
-            </h2>
+            <main className="container min-h-screen mx-auto py-12 space-y-6">
+                <h2 className="text-3xl text-center font-bold ">
+                    Please Login First
+                </h2>
+
+                <button
+                    className="block px-6 py-3 mx-auto border border-black rounded bg-white text-black font-bold hover:opacity-50 transition-all duration-500"
+                    onClick={() => {
+                        signIn("github");
+                    }}
+                >
+                    Login
+                </button>
+            </main>
         );
     }
 
     return (
-        <main className="min-h-screen grid grid-cols-12 gap-10 px-12">
+        <main className="container min-h-screen grid grid-cols-12 gap-10 mx-auto px-12">
             <h1 className="col-start-2 col-span-10 mt-5 text-4xl font-bold">
                 Your Repos
             </h1>
