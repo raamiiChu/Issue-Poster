@@ -5,9 +5,13 @@ export interface IssuePageParams {
 export interface Repo {
     id: number;
     name: string;
-    owner: { login: string; html_url: string; avatar_url: string };
     html_url: string;
+
     description: string;
+    open_issues_count: number;
+
+    owner: { login: string; html_url: string; avatar_url: string };
+
     created_at: string;
 }
 
@@ -21,4 +25,8 @@ export interface Issue {
 
     comments: number;
     comments_url: string;
+
+    user: { login: string; avatar_url: string; html_url: string };
+
+    created_at: string;
 }
