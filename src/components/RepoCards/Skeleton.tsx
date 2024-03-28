@@ -9,7 +9,7 @@ const Skeleton = () => {
                 return (
                     <li
                         key={repo}
-                        className={`animate-pulse p-8 grid grid-cols-12 items-center gap-2.5 ${
+                        className={`animate-pulse p-8 grid grid-cols-12 items-center gap-2.5 rounded-lg ${
                             index % 2 === 0
                                 ? "bg-slate-400 dark:bg-slate-700"
                                 : "bg-slate-200 dark:bg-slate-500"
@@ -21,7 +21,11 @@ const Skeleton = () => {
                             </h2>
                         </section>
 
-                        <section className="col-span-6"></section>
+                        <section className="col-span-6 grid grid-cols-3">
+                            <div className="col-end-4 rounded text-transparent bg-slate-500 dark:bg-slate-300">
+                                Issues: 0
+                            </div>
+                        </section>
 
                         <p className="text-sm line-clamp-2 bg-slate-500 dark:bg-slate-300">
                             description
