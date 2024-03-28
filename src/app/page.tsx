@@ -10,24 +10,20 @@ import { useInView } from "react-intersection-observer";
 import Skeleton from "@/components/RepoCards/Skeleton";
 
 const fetcher = async (url: string, token: string) => {
-    try {
-        const { data, status } = await axios.get(url, {
-            headers: { Authorization: `bearer ${token}` },
-        });
+    const { data, status } = await axios.get(url, {
+        headers: { Authorization: token },
+    });
 
-        if (status === 200) {
-            return data;
-        }
-
-        return [];
-    } catch (error) {
-        console.log(error);
-        return [];
+    if (status === 200) {
+        return data;
     }
+
+    return [];
 };
+
 export default function Home() {
     const { data: session, status } = useSession();
-    const [currRepo, setCurrRepo] = useState<Repo[] | []>([]);
+    const [currRepos, setCurrRepos] = useState<Repo[] | []>([]);
     const [page, setPage] = useState<number>(1);
     const [canGetMoreData, setCanGetMoreData] = useState<boolean>(true);
 
@@ -38,13 +34,11 @@ export default function Home() {
         isLoading,
         isValidating,
     } = useSWR(
-        [
-            `https://api.github.com/user/repos?visibility=public&per_page=10&page=${page}`,
-            session?.accessToken,
-        ],
+        [`/api/github/repos?page=${page}`, session?.accessToken],
         ([url, token]) => fetcher(url, token)
     );
 
+    // infinite scroll
     const {
         ref: mutateRef,
         inView,
@@ -55,8 +49,9 @@ export default function Home() {
     });
 
     useEffect(() => {
+        // add new repos
         if (repos) {
-            setCurrRepo((prev) => [...prev, ...repos]);
+            setCurrRepos((prev) => [...prev, ...repos]);
 
             if (repos?.length === 0) {
                 setCanGetMoreData(false);
@@ -65,6 +60,7 @@ export default function Home() {
     }, [repos]);
 
     useEffect(() => {
+        // trigger infintie scroll
         if (inView && canGetMoreData) {
             setPage((prev) => prev + 1);
             mutate();
@@ -85,21 +81,28 @@ export default function Home() {
                 Your Repos
             </h1>
 
-            {(isLoading || isValidating) && canGetMoreData && <Skeleton />}
-            <RepoCards repos={currRepo} />
-
+            {/* error message */}
             {error && (
                 <div className="col-span-full my-12 text-3xl text-red-500 text-center font-bold">
                     Failed to Load Data
                 </div>
             )}
 
-            {canGetMoreData ? (
+            {/* skeleton loading while fetching data */}
+            {(isLoading || isValidating) && canGetMoreData && <Skeleton />}
+
+            {/* show current data */}
+            <RepoCards repos={currRepos} />
+
+            {/* trigger infinite scroll, if there's more data */}
+            {!error && canGetMoreData && (
                 <div
                     ref={mutateRef}
                     className="col-span-full animate-spin size-12 mx-auto my-12 border-b-4 border-slate-900 dark:border-white rounded-full"
-                ></div>
-            ) : (
+                />
+            )}
+
+            {!error && !canGetMoreData && (
                 <div className="col-span-full my-12 text-3xl text-center font-bold">
                     No More Repos
                 </div>
