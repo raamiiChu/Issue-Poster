@@ -16,30 +16,32 @@ export const GET = async (request: any, { params }: { params: Params }) => {
         return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const res = await axios.get(
-        `https://api.github.com/repos/${owner}/${repo}/issues?per_page=10&page=${page}`,
-        { headers: { Authorization: `Bearer ${githubToken}` } }
-    );
+    try {
+        const res = await axios.get(
+            `https://api.github.com/repos/${owner}/${repo}/issues?per_page=10&page=${page}`,
+            { headers: { Authorization: `Bearer ${githubToken}` } }
+        );
 
-    if (!res) {
-        return new NextResponse("Client side error", { status: 400 });
-    }
+        const { data, status } = res;
 
-    const { data, status } = res;
-
-    switch (status) {
-        case 200:
+        if (status === 200) {
             return new NextResponse(JSON.stringify(data), { status });
-        case 301:
-            return new NextResponse("Moved permanently", { status });
-        case 404:
-            return new NextResponse("Not found", { status });
-        case 422:
-            return new NextResponse(
-                "Validation failed, or the endpoint has been spammed",
-                { status }
-            );
-        default:
-            return new NextResponse("Client side error", { status: 400 });
+        }
+    } catch (error) {
+        const { status } = error.response;
+
+        switch (status) {
+            case 301:
+                return new NextResponse("Moved permanently", { status });
+            case 404:
+                return new NextResponse("Not found", { status });
+            case 422:
+                return new NextResponse(
+                    "Validation failed, or the endpoint has been spammed",
+                    { status }
+                );
+            default:
+                return new NextResponse("Client side error", { status: 400 });
+        }
     }
 };
