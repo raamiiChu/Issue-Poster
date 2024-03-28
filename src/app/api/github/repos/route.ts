@@ -9,7 +9,7 @@ export const GET = async (request: any) => {
 
     try {
         const res = await axios.get(
-            `https://api.github.com/user/repos?visibility=public&per_page=10&page=${page}`,
+            `https://api.github.com/user/repos?visibility=public&sort=pushed&per_page=10&page=${page}`,
             { headers: { Authorization: `Bearer ${githubToken}` } }
         );
 
