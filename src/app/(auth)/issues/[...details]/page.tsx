@@ -14,30 +14,20 @@ interface Params {
 }
 
 const fetcher = async (url: string, token: string) => {
-    try {
-        const { data, status } = await axios.get(url, {
-            headers: { Authorization: `bearer ${token}` },
-        });
+    const { data, status } = await axios.get(url, {
+        headers: { Authorization: token },
+    });
 
-        if (status === 200) {
-            return data as Issue[];
-        }
-
-        return [];
-    } catch (error) {
-        console.log(error);
-        return [];
+    if (status === 200) {
+        return data as Issue[];
     }
+
+    return [];
 };
 
 const IssuePage = ({ params }: Params) => {
     const [owner, repo] = params.details;
     const { data: session } = useSession();
-    // const { data: issues }: { data: Issue[] } = await axios.get(
-    //     `https://api.github.com/repos/${owner}/${repo}/issues`
-    // );
-
-    // console.log(issues);
 
     const {
         data: issues,
@@ -47,7 +37,8 @@ const IssuePage = ({ params }: Params) => {
         isValidating,
     } = useSWR(
         [
-            `https://api.github.com/repos/${owner}/${repo}/issues?per_page=10&page=1`,
+            `/api/github/issues/${owner}/${repo}?page=${1}`,
+            // `https://api.github.com/repos/${owner}/${repo}/issues?per_page=10&page=1`,
             session?.accessToken,
         ],
         ([url, token]) => fetcher(url, token)
