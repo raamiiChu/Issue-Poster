@@ -13,9 +13,9 @@ import Markdown from "react-markdown";
 import { BsBoxArrowUpRight } from "react-icons/bs";
 import { format } from "date-fns";
 
-interface Params {
+type Params = {
     params: IssuePageParams;
-}
+};
 
 const fetcher = async (url: string, token: string) => {
     const { data, status } = await axios.get(url, {

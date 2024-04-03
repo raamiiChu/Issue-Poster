@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
-import { AnyARecord } from "dns";
 
 export const GET = async (request: any) => {
     const url = new URL(request.url);

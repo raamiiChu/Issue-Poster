@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import axios from "axios";
 import { IssuePageParams } from "@/types";
 
-interface Params {
+type Params = {
     params: IssuePageParams;
-}
+};
 
 export const GET = async (request: any, { params }: Params) => {
     const url = new URL(request.url);

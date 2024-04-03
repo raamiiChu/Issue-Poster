@@ -8,9 +8,9 @@ import { Repo } from "@/types";
 import { BsBoxArrowUpRight } from "react-icons/bs";
 import { format } from "date-fns";
 
-interface Params {
+type Params = {
     repos: Repo[];
-}
+};
 
 const RepoCards = ({ repos }: Params) => {
     return (
