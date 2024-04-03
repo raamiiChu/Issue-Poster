@@ -1,14 +1,15 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
+import { IssuePageParams } from "@/types";
 
 interface Params {
-    details: [owner: string, repo: string];
+    params: IssuePageParams;
 }
 
-export const GET = async (request: any, { params }: { params: Params }) => {
+export const GET = async (request: any, { params }: Params) => {
     const url = new URL(request.url);
 
-    const [owner, repo] = params.details;
+    const { owner, repo } = params;
     const page = url.searchParams.get("page");
     const githubToken = request.headers.get("Authorization");
 
@@ -27,7 +28,7 @@ export const GET = async (request: any, { params }: { params: Params }) => {
         if (status === 200) {
             return new NextResponse(JSON.stringify(data), { status });
         }
-    } catch (error) {
+    } catch (error: any) {
         const { status } = error.response;
 
         switch (status) {

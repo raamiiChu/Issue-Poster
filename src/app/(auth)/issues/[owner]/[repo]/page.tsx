@@ -30,7 +30,7 @@ const fetcher = async (url: string, token: string) => {
 };
 
 const IssuePage = ({ params }: Params) => {
-    const [owner, repo] = params.details;
+    const { owner, repo } = params;
     const { data: session } = useSession();
 
     const {
@@ -86,17 +86,23 @@ const IssuePage = ({ params }: Params) => {
                         >
                             <section className="grid grid-cols-12 justify-between items-center gap-x-4">
                                 <Link
-                                    className="group col-span-10 flex items-center gap-x-4 text-2xl font-bold line-clamp-2"
-                                    href={html_url}
+                                    className="col-span-8"
+                                    href={`/issues/${owner}/${repo}/${number}`}
                                 >
                                     <h2
                                         title={title}
-                                        className="underline-offset-2 group-hover:underline transition-all"
+                                        className="text-2xl font-bold line-clamp-2 underline-offset-2 hover:underline transition-all"
                                     >
                                         {title}
                                     </h2>
+                                </Link>
 
-                                    <BsBoxArrowUpRight className="text-black dark:text-white group-hover:opacity-50 transition-all" />
+                                <Link
+                                    className="col-span-2 flex items-center text-2xl"
+                                    href={html_url}
+                                    target="blank"
+                                >
+                                    <BsBoxArrowUpRight className="text-black dark:text-white hover:opacity-50 transition-all" />
                                 </Link>
 
                                 <span className="col-span-2 text-center">
