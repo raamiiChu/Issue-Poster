@@ -36,12 +36,17 @@ const RepoCards = ({ repos }: Params) => {
                         }`}
                     >
                         <section className="col-span-6 flex gap-x-2.5">
-                            <h2
-                                className="text-xl font-bold line-clamp-1"
+                            <Link
+                                href={`/issues/${owner.login}/${name}`}
                                 title={name}
                             >
-                                {name}
-                            </h2>
+                                <h2
+                                    className="text-xl font-bold line-clamp-1 transition-all hover:underline"
+                                    title={name}
+                                >
+                                    {name}
+                                </h2>
+                            </Link>
                             <Link
                                 href={html_url}
                                 title={name}
