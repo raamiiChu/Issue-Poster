@@ -1,6 +1,9 @@
 export type IssuePageParams = {
-    owner: string;
-    repo: string;
+    params: { owner: string; repo: string };
+};
+
+export type IssueNumberPageParams = {
+    params: { owner: string; repo: string; number: number };
 };
 
 export type Repo = {
@@ -27,6 +30,18 @@ export type Issue = {
     comments: number;
     comments_url: string;
 
+    author_association: string;
+    user: { login: string; avatar_url: string; html_url: string };
+
+    created_at: string;
+};
+
+export type Comment = {
+    id: number;
+    html_url: string;
+    body: string;
+
+    author_association: string;
     user: { login: string; avatar_url: string; html_url: string };
 
     created_at: string;
