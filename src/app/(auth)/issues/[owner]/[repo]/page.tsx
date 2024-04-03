@@ -39,7 +39,7 @@ const IssuePage = ({ params }: IssuePageParams) => {
         <main className="container min-h-screen mx-auto px-12 pt-4 pb-16">
             <section role="grid" className="grid grid-cols-12 gap-y-10">
                 <h1 className="col-start-2 col-span-10 mt-5 text-4xl font-bold">
-                    Issues in {repo}
+                    Issues in &quot;{repo}&quot;
                 </h1>
 
                 {issues?.length === 0 && (
@@ -51,9 +51,17 @@ const IssuePage = ({ params }: IssuePageParams) => {
                     </article>
                 )}
 
+                <Link
+                    href={"/"}
+                    role="button"
+                    className="fixed top-20 left-10 px-5 py-2.5 border border-black rounded bg-white text-black font-bold hover:opacity-50 transition-all duration-500"
+                >
+                    Go Back
+                </Link>
+
                 <button
                     role="button"
-                    className="h-fit col-start-6 col-span-2 px-5 py-2.5 border border-black rounded bg-white text-black font-bold hover:opacity-50 transition-all duration-500"
+                    className="col-start-6 col-span-2 px-5 py-2.5 border border-black rounded bg-white text-black font-bold hover:opacity-50 transition-all duration-500"
                 >
                     Post an Issue
                 </button>
@@ -97,9 +105,12 @@ const IssuePage = ({ params }: IssuePageParams) => {
                                     </span>
                                 </section>
 
-                                <button className="px-5 py-1.5 border border-black rounded bg-white text-black font-bold hover:opacity-50 transition-all duration-500">
+                                <Link
+                                    href={`/issues/${owner}/${repo}/${number}#comments`}
+                                    className="px-5 py-1.5 border border-black rounded bg-white text-black text-center font-bold hover:opacity-50 transition-all duration-500"
+                                >
                                     Comments: {comments}
-                                </button>
+                                </Link>
                             </article>
                         );
                     })}
