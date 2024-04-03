@@ -14,7 +14,10 @@ const IssueNumberPage = ({ params }: IssueNumberPageParams) => {
             <section role="grid" className="grid grid-cols-12 gap-y-8 py-12">
                 <IssueBody params={params} />
 
-                <section className="col-start-4 col-span-6 grid grid-cols-3 items-center">
+                <section
+                    id="comments"
+                    className="col-start-4 col-span-6 grid grid-cols-3 items-center"
+                >
                     <hr className="inline border-4" />
                     <h2 className="text-2xl text-center font-bold">Comments</h2>
                     <hr className="inline border-4" />
