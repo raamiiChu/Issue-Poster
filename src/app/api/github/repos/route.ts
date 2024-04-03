@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
+import { AnyARecord } from "dns";
 
 export const GET = async (request: any) => {
     const url = new URL(request.url);
@@ -18,7 +19,7 @@ export const GET = async (request: any) => {
         if (status === 200) {
             return new NextResponse(JSON.stringify(data), { status });
         }
-    } catch (error) {
+    } catch (error: any) {
         const { status } = error.response;
 
         switch (status) {
