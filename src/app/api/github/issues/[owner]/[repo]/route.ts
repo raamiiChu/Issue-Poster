@@ -1,12 +1,9 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
+
 import { IssuePageParams } from "@/types";
 
-type Params = {
-    params: IssuePageParams;
-};
-
-export const GET = async (request: any, { params }: Params) => {
+export const GET = async (request: any, { params }: IssuePageParams) => {
     const url = new URL(request.url);
 
     const { owner, repo } = params;

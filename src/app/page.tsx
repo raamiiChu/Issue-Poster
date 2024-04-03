@@ -18,8 +18,6 @@ const fetcher = async (url: string, token: string) => {
     if (status === 200) {
         return data;
     }
-
-    return [];
 };
 
 export default function Home() {
