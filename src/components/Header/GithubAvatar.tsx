@@ -18,6 +18,7 @@ const GithubAvatar = () => {
     return (
         <Link
             href={`https://github.com/${name}`}
+            target="_blank"
             className="relative size-9 hover:opacity-50 transition-all duration-500"
         >
             <Image

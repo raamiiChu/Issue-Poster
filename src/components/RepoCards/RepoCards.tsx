@@ -45,7 +45,7 @@ const RepoCards = ({ repos }: Params) => {
                             <Link
                                 href={html_url}
                                 title={name}
-                                target="blank"
+                                target="_blank"
                                 className="flex items-center hover:opacity-50 transition-all"
                             >
                                 <BsBoxArrowUpRight className="text-xl" />
@@ -73,7 +73,7 @@ const RepoCards = ({ repos }: Params) => {
                                 <span>Created By:</span>
                                 <Link
                                     href={owner.html_url}
-                                    target="blank"
+                                    target="_blank"
                                     className="size-6 relative hover:opacity-50 transition-all"
                                 >
                                     <Image
