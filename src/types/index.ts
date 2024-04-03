@@ -1,8 +1,9 @@
-export interface IssuePageParams {
-    details: [string, string];
-}
+export type IssuePageParams = {
+    owner: string;
+    repo: string;
+};
 
-export interface Repo {
+export type Repo = {
     id: number;
     name: string;
     html_url: string;
@@ -13,9 +14,9 @@ export interface Repo {
     owner: { login: string; html_url: string; avatar_url: string };
 
     created_at: string;
-}
+};
 
-export interface Issue {
+export type Issue = {
     id: number;
     number: number;
     html_url: string;
@@ -29,4 +30,4 @@ export interface Issue {
     user: { login: string; avatar_url: string; html_url: string };
 
     created_at: string;
-}
+};
