@@ -48,11 +48,18 @@ const Issues = () => {
     }
 
     return (
-        <main className="container min-h-screen flex flex-col mx-auto px-12">
+        <main className="container min-h-screen flex flex-col mx-auto p-12">
             <section role="grid" className="grid grid-cols-12 gap-10">
                 <h1 className="col-start-2 col-span-10 mt-5 text-4xl font-bold">
                     Your Issues
                 </h1>
+
+                <Link
+                    href={"/repos"}
+                    className="col-start-5 col-span-4 px-5 py-2.5 border border-black rounded text-center font-bold bg-white text-black hover:opacity-50 dark:hover:bg-white dark:hover:text-black transition-all duration-500"
+                >
+                    Create an new Issue in your repos
+                </Link>
 
                 <ul className="col-start-3 col-span-8 grid grid-cols-1 gap-y-5">
                     {issues?.map((issue: Issue, index) => {
