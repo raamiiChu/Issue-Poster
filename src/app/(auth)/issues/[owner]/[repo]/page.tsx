@@ -2,12 +2,14 @@
 
 import React from "react";
 import Link from "next/link";
-import { IssuePageParams, Issue } from "@/types";
 
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
 
+import { IssuePageParams, Issue } from "@/types";
+
+import PostIssueModal from "./components/PostIssueModal";
 import { BsBoxArrowUpRight } from "react-icons/bs";
 
 const fetcher = async (url: string, token: string) => {
@@ -39,7 +41,7 @@ const IssuePage = ({ params }: IssuePageParams) => {
         <main className="container min-h-screen mx-auto px-12 pt-4 pb-16">
             <section role="grid" className="grid grid-cols-12 gap-y-10">
                 <h1 className="col-start-2 col-span-10 mt-5 text-4xl font-bold">
-                    Issues in &quot;{repo}&quot;
+                    Issues in {JSON.stringify(repo)}
                 </h1>
 
                 {issues?.length === 0 && (
@@ -59,12 +61,7 @@ const IssuePage = ({ params }: IssuePageParams) => {
                     Go Back
                 </Link>
 
-                <button
-                    role="button"
-                    className="col-start-6 col-span-2 px-5 py-2.5 border border-black rounded bg-white text-black font-bold hover:opacity-50 transition-all duration-500"
-                >
-                    Post an Issue
-                </button>
+                <PostIssueModal params={params} />
 
                 <section
                     role="grid"
