@@ -11,7 +11,9 @@ import { IssueNumberPageParams, Issue } from "@/types";
 
 import Markdown from "react-markdown";
 
+import UpdateIssueModal from "./UpdateIssueModal";
 import DeleteIssueButton from "./DeleteIssueButton";
+
 import { BsBoxArrowUpRight } from "react-icons/bs";
 
 const fetcher = async (url: string, token: string) => {
@@ -42,6 +44,13 @@ const IssueBody = ({ params }: IssueNumberPageParams) => {
         <article role="article" className="col-start-4 col-span-6 space-y-10">
             {issue?.author_association === "OWNER" && (
                 <DeleteIssueButton params={params} />
+            )}
+
+            {issue?.author_association === "OWNER" && (
+                <UpdateIssueModal
+                    params={params}
+                    issue={{ title: issue?.title, body: issue?.body }}
+                />
             )}
 
             <Link
