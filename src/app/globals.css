@@ -25,6 +25,6 @@
 
 @layer components {
     .prose-init {
-        @apply prose-hr:border-t-4;
+        /* @apply prose-hr:border-t-4; */
     }
 }

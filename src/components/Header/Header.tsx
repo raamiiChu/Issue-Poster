@@ -9,7 +9,7 @@ import ThemeToggle from "./ThemeToggle";
 
 const Header = () => {
     return (
-        <header className="container sticky top-0 z-50 h-16 grid grid-cols-12 mx-auto px-12 items-center border-b border-slate-500 backdrop-blur">
+        <header className="sticky top-0 z-50 h-16 grid grid-cols-12 mx-auto px-12 items-center border-b border-slate-500 backdrop-blur">
             <Link
                 href={"/"}
                 className="col-span-1 text-2xl font-bold hover:opacity-50 transition-all duration-500"
