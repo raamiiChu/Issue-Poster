@@ -32,6 +32,12 @@ export type Issue = {
 
     author_association: string;
     user: { login: string; avatar_url: string; html_url: string };
+    repository: {
+        name: string;
+        full_name: string;
+        html_url: string;
+        owner: { login: string; html_url: string };
+    };
 
     created_at: string;
 };
