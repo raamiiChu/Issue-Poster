@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
@@ -47,6 +47,8 @@ const formSchema = z.object({
 
 const PostIssueModal = ({ params }: IssuePageParams) => {
     const { owner, repo } = params;
+
+    const [open, setOpen] = useState<boolean>(false);
     const { data: session } = useSession();
 
     // Define the form.
@@ -60,33 +62,29 @@ const PostIssueModal = ({ params }: IssuePageParams) => {
 
     // Define a submit handler.
     const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log(values);
-
         const { title, body } = values;
 
         const turndownService = new TurndownService();
         const markdown = turndownService.turndown(body);
-        console.log(markdown);
 
         try {
-            const { status, data } = await axios.post(
-                `https://api.github.com/repos/${owner}/${repo}/issues`,
+            const { status } = await axios.post(
+                `/api/github/issues/${owner}/${repo}`,
                 { title, body: markdown },
-                { headers: { Authorization: `Bearer ${session?.accessToken}` } }
+                { headers: { Authorization: session?.accessToken } }
             );
 
             if (status === 201) {
                 console.log("Created");
+                setOpen(false);
             }
-
-            console.log(status, data);
-        } catch (error) {
+        } catch (error: any) {
             console.log(error.response);
         }
     };
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger
                 asChild
                 className="col-start-6 col-span-2 px-5 py-2.5 border border-black rounded bg-white text-black font-bold hover:opacity-50 dark:hover:bg-white dark:hover:text-black transition-all duration-500"
@@ -158,7 +156,7 @@ const PostIssueModal = ({ params }: IssuePageParams) => {
                                 type="submit"
                                 className="px-5 py-2.5 border border-black rounded bg-white text-black font-bold hover:bg-black hover:text-white transition-all duration-500"
                             >
-                                Save changes
+                                Create
                             </Button>
                         </DialogFooter>
                     </form>
