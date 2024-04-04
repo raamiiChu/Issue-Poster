@@ -26,6 +26,8 @@ export const GET = async (request: any) => {
         switch (status) {
             case 304:
                 return new NextResponse("Not modified", { status });
+            case 401:
+                return new NextResponse("Unauthorized", { status });
             case 404:
                 return new NextResponse("Resource not found", { status });
             case 422:
