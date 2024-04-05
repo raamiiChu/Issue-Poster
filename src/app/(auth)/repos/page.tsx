@@ -10,7 +10,7 @@ import RepoCards from "./components/RepoCards";
 import Skeleton from "./components/Skeleton";
 import { Repo } from "@/types";
 
-const fetcher = async (url: string, token: string) => {
+const fetcher = async (url: string, token: string | undefined) => {
     const { data, status } = await axios.get(url, {
         headers: { Authorization: token },
     });
@@ -76,10 +76,7 @@ const Repos = () => {
 
     return (
         <main className="container min-h-screen flex flex-col mx-auto px-6 sm:px-12">
-            <section
-                role="grid"
-                className="grid grid-cols-12 gap-y-10"
-            >
+            <section role="grid" className="grid grid-cols-12 gap-y-10">
                 <h1 className="col-start-1 lg:col-start-2 col-span-full lg:col-span-10 mt-5 text-4xl font-bold">
                     Your Repos
                 </h1>

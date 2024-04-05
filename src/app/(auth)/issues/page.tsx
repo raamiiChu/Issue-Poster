@@ -13,7 +13,7 @@ import { Issue } from "@/types";
 import IssueCards from "./components/IssueCards";
 import Skeleton from "./components/Skeleton";
 
-const fetcher = async (url: string, token: string) => {
+const fetcher = async (url: string, token: string | undefined) => {
     const { data, status } = await axios.get(url, {
         headers: { Authorization: token },
     });

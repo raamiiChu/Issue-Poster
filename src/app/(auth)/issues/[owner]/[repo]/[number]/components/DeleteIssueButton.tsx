@@ -73,7 +73,7 @@ const DeleteIssueButton = ({ params }: IssueNumberPageParams) => {
 
                     router.push(`/issues/${owner}/${repo}`);
                 }
-            } catch (error) {
+            } catch (error: any) {
                 Swal.close();
 
                 Swal.fire({

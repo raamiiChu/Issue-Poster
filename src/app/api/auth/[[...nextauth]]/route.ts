@@ -7,8 +7,8 @@ const handler = NextAuth({
     // Configure one or more authentication providers
     providers: [
         GithubProvider({
-            clientId: GITHUB_ID,
-            clientSecret: GITHUB_SECRET,
+            clientId: GITHUB_ID || "",
+            clientSecret: GITHUB_SECRET || "",
             authorization: { params: { scope: "user repo" } },
         }),
     ],

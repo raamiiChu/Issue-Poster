@@ -15,12 +15,10 @@ import { format } from "date-fns";
 
 import CommentsSkeleton from "./CommentsSkeleton";
 
-const fetcher = async (url: string, token: string) => {
+const fetcher = async (url: string, token: string | undefined) => {
     const { data, status } = await axios.get(url, {
         headers: { Authorization: token },
     });
-
-    console.log(data);
 
     if (status === 200) {
         return data as Comment[];

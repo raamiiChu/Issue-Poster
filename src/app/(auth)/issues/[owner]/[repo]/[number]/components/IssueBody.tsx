@@ -17,7 +17,7 @@ import IssueBodySkeleton from "./IssueBodySkeleton";
 
 import { BsBoxArrowUpRight } from "react-icons/bs";
 
-const fetcher = async (url: string, token: string) => {
+const fetcher = async (url: string, token: string | undefined) => {
     const { data, status } = await axios.get(url, {
         headers: { Authorization: token },
     });
