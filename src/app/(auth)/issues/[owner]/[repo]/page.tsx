@@ -81,8 +81,6 @@ const IssuePage = ({ params }: IssuePageParams) => {
     }, [inView]);
 
     useEffect(() => {
-        setCurrIssues([]);
-
         // Clear currIssues when component unmounts
         return () => {
             setCurrIssues([]);
