@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Dcard Frontend Intern Homework
+**! ! ! Warning ! ! !**
+-   This is personal homework for applying internships in [**Dcard**](https://about.dcard.tw/); it has **No Commercial Use**.
 
-First, run the development server:
+-   The website will be unavailable after 2024 / 6 / 1.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+# Basic Info
+
+-   Author: Ramy Chu
+
+-   Web Page: https://dcard-frontend-intern-homework.vercel.app/
+
+---
+
+# Getting Started
+
+## Visit on Vercel
+
+Use the following link: 
+
+[**Dcard Frontend Intern Homework**](https://dcard-frontend-intern-homework.vercel.app/)
+
+## Run on localhost
+
+### 1. Create a new OAuth App
+
+1. Go to https://github.com/settings/developers,
+   click "New OAuth App"
+
+   ![click "New OAuth App"](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework/assets/87169493/85de6f7a-ef53-47e3-a3ac-f030294617d4)
+
+3. Type the following information:
+
+    - Application name: type whatever you want
+    - Homepage URL: `http://localhost:3000/`
+    - Authorization callback URL: `http://localhost:3000/`
+
+    ![Register new OAuth App](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework/assets/87169493/651721b3-b3a9-4f92-b3b0-9275cac571a2)
+
+4. Copy `GITHUB_ID` & `GITHUB_SECRET`
+
+    ![Copy `GITHUB_ID` & `GITHUB_SECRET`](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework/assets/87169493/893205bc-14fc-472f-abb3-84ba975bf47c)
+
+### 2. Create `.env.local` in the root folder
+
+```
+NEXTAUTH_SECRET = "type whatever you want"
+NEXTAUTH_URL = "http://localhost:3000/"
+GITHUB_ID = "your github id"
+GITHUB_SECRET = "you github secret"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. Run the development server:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### 4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+# Skills
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- HTML5
+- CSS3 / Tailwind CSS
+- JavaScript ( ES6 ) / TypeScript
+- React / Next JS
+- RWD
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+# Package Used
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Framework
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Tailwind CSS + tailwindcss-typography
+- Next JS + App Router
+
+## UI Tools
+
+- shadcn-ui
+- sweetalert2
+- react-quill
+- react-icons
+
+## Functionality
+- marked / turndown / react-markdown
+- date-fns
+
+## OAuth
+
+- Next-Auth
+
+## State Management
+
+- Content API
+
+## API Call
+
+- axios
+- useSWR
+
+---
+
