@@ -105,7 +105,7 @@ const UpdateIssueModal = ({ params, issue }: T) => {
             <DialogTrigger asChild>
                 <Button
                     variant="outline"
-                    className="fixed bottom-10 right-16 px-3 py-6 rounded-full text-black bg-white border border-black transition-all hover:text-white hover:bg-black"
+                    className="fixed bottom-10 right-16 px-3 py-6 rounded-full text-black bg-white border-2 border-black dark:border-white transition-all hover:text-white hover:bg-black"
                 >
                     <FaRegEdit className="text-2xl" />
                 </Button>
@@ -155,15 +155,15 @@ const UpdateIssueModal = ({ params, issue }: T) => {
                                     <FormLabel className="text-lg font-bold">
                                         Body
                                     </FormLabel>
-                                    <FormControl>
+                                    <FormControl className="h-40">
                                         <ReactQuill
                                             theme="snow"
                                             placeholder="body"
                                             {...field}
-                                            className="max-h-40 overflow-y-scroll placeholder:text-slate-400"
+                                            className=" placeholder:text-slate-400"
                                         />
                                     </FormControl>
-                                    <FormDescription>
+                                    <FormDescription className="pt-12">
                                         This is your body.
                                     </FormDescription>
                                     <FormMessage className="text-red-500 font-bold" />
