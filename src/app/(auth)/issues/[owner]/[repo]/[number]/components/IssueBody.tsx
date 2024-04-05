@@ -55,7 +55,10 @@ const IssueBody = ({ params }: IssueNumberPageParams) => {
     }
 
     return (
-        <article role="article" className="col-start-4 col-span-6 space-y-10">
+        <article
+            role="article"
+            className="col-start-1 md:col-start-3 lg:col-start-4 col-span-full md:col-span-8 lg:col-span-6 space-y-10"
+        >
             {issue?.author_association === "OWNER" && (
                 <DeleteIssueButton params={params} />
             )}

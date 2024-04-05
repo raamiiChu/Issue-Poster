@@ -4,7 +4,10 @@ const CommentsSkeleton = () => {
     const comments = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
     return (
-        <ul role="skeleton" className="col-start-4 col-span-6 space-y-8">
+        <ul
+            role="skeleton"
+            className="col-start-1 md:col-start-3 lg:col-start-4 col-span-full md:col-span-8 lg:col-span-6 space-y-8 py-8"
+        >
             {comments?.map((comment) => {
                 return (
                     <li

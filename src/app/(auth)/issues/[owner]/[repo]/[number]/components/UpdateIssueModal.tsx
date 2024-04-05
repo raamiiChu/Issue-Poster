@@ -148,7 +148,7 @@ const UpdateIssueModal = ({ params, issue, mutate }: T) => {
             <DialogTrigger asChild>
                 <Button
                     variant="outline"
-                    className="fixed bottom-10 right-16 px-3 py-6 rounded-full text-black bg-white border-2 border-black dark:border-white transition-all hover:text-white hover:bg-black"
+                    className="fixed bottom-10 right-8 sm:right-16 px-3 py-6 rounded-full text-black bg-white border-2 border-black dark:border-white transition-all hover:text-white hover:bg-black"
                 >
                     <FaRegEdit className="text-2xl" />
                 </Button>

@@ -57,7 +57,10 @@ const Comments = ({ params }: IssueNumberPageParams) => {
     }
 
     return (
-        <ul role="listbox" className="col-start-4 col-span-6 space-y-8">
+        <ul
+            role="listbox"
+            className="col-start-1 md:col-start-3 lg:col-start-4 col-span-full md:col-span-8 lg:col-span-6 space-y-8 py-8"
+        >
             {comments?.length === 0 && (
                 <h2 className="text-3xl text-center">
                     Oops, there&apos;s no comments in this issue.

@@ -9,7 +9,7 @@ const PrevPageButton = ({ params }: IssueNumberPageParams) => {
     return (
         <Link
             href={`/issues/${owner}/${repo}`}
-            className="fixed top-20 left-10 px-5 py-1.5 border border-black rounded bg-white text-black text-center font-bold hover:opacity-50 transition-all duration-500"
+            className="fixed top-20 left-3 sm:left-10 px-5 py-1.5 border border-black rounded bg-white text-black text-center font-bold hover:opacity-50 transition-all duration-500"
         >
             Go Back
         </Link>

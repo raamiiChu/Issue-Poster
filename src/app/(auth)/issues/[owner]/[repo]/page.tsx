@@ -6,7 +6,6 @@ import Link from "next/link";
 import axios from "axios";
 import useSWR from "swr";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { useInView } from "react-intersection-observer";
 
 import { IssuePageParams, Issue } from "@/types";
@@ -32,8 +31,7 @@ const fetcher = async (url: string, token: string) => {
 
 const IssuePage = ({ params }: IssuePageParams) => {
     const { owner, repo } = params;
-    const { data: session, status } = useSession();
-    const router = useRouter();
+    const { data: session } = useSession();
 
     const [page, setPage] = useState<number>(1);
     const [currIssues, setCurrIssues] = useState<Issue[] | []>([]);
@@ -52,10 +50,6 @@ const IssuePage = ({ params }: IssuePageParams) => {
         ],
         ([url, token]) => fetcher(url, token)
     );
-
-    if (status === "unauthenticated") {
-        router.push("/");
-    }
 
     // infinite scroll
     const {
@@ -94,19 +88,19 @@ const IssuePage = ({ params }: IssuePageParams) => {
     }, []);
 
     return (
-        <main className="container min-h-screen mx-auto px-12 pt-4 pb-16">
+        <main className="container min-h-screen mx-auto px-6 sm:px-12 py-16">
             <section role="grid" className="grid grid-cols-12 gap-y-10">
-                <h1 className="col-start-2 col-span-10 mt-5 text-4xl font-bold">
-                    Issues in {JSON.stringify(repo)}
-                </h1>
-
                 <Link
                     href={"/repos"}
                     role="button"
-                    className="fixed top-20 left-10 px-5 py-1.5 border border-black rounded bg-white text-black font-bold hover:opacity-50 transition-all duration-500"
+                    className="fixed top-20 left-3 sm:left-10 px-5 py-1.5 border border-black rounded bg-white text-black font-bold hover:opacity-50 transition-all duration-500"
                 >
                     Go Back
                 </Link>
+
+                <h1 className="col-start-2 col-span-10 mt-5 text-4xl font-bold">
+                    Issues in {JSON.stringify(repo)}
+                </h1>
 
                 <PostIssueModal params={params} />
 

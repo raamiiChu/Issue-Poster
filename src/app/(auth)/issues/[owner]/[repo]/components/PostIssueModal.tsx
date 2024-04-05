@@ -126,7 +126,7 @@ const PostIssueModal = ({ params }: IssuePageParams) => {
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger
                 asChild
-                className="col-start-6 col-span-2 px-5 py-2.5 border border-black rounded bg-white text-black font-bold hover:opacity-50 dark:hover:bg-white dark:hover:text-black transition-all duration-500"
+                className="col-start-2 md:col-start-4 lg:col-start-5 col-span-10 md:col-span-6 lg:col-span-4 px-5 py-2.5 border border-black rounded bg-white text-black font-bold hover:opacity-50 dark:hover:bg-white dark:hover:text-black transition-all duration-500"
             >
                 <Button variant="outline">Post an Issue</Button>
             </DialogTrigger>

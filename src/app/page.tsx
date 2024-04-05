@@ -15,7 +15,7 @@ export default function Home() {
                 </h2>
 
                 <button
-                    className="block px-6 py-3 mx-auto border border-black rounded bg-white text-black font-bold hover:opacity-50 transition-all duration-500"
+                    className="block px-12 py-3 mx-auto border border-black rounded bg-white text-black font-bold hover:opacity-50 transition-all duration-500"
                     onClick={() => {
                         signIn("github");
                     }}
@@ -28,11 +28,11 @@ export default function Home() {
 
     return (
         <main className="container min-h-screen mx-auto space-y-12 py-6 text-center">
-            <h1 className="text-3xl font-bold">
+            <h1 className="text-3xl font-bold leading-normal">
                 Welcome! {JSON.stringify(session?.user?.name || "Unknown")}
             </h1>
 
-            <nav className="space-x-20 py-3">
+            <nav className="grid grid-cols-1 sm:grid-cols-2 gap-x-20 gap-y-8 py-3">
                 <Link
                     href={"/repos"}
                     className="px-12 py-3 border border-black rounded bg-white text-black font-bold hover:opacity-50 transition-all duration-500"

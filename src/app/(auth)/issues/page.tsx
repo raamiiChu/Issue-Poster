@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 
 import { useInView } from "react-intersection-observer";
-import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 import axios from "axios";
@@ -29,8 +28,7 @@ const Issues = () => {
     const [currIssues, setCurrIssues] = useState<Issue[] | []>([]);
     const [canGetMoreData, setCanGetMoreData] = useState<boolean>(true);
 
-    const router = useRouter();
-    const { data: session, status } = useSession();
+    const { data: session } = useSession();
 
     const {
         data: issues,
@@ -42,10 +40,6 @@ const Issues = () => {
         [`/api/github/issues?page=${page}`, session?.accessToken],
         ([url, token]) => fetcher(url, token)
     );
-
-    if (status === "unauthenticated") {
-        router.push("/");
-    }
 
     // infinite scroll
     const {
@@ -84,15 +78,15 @@ const Issues = () => {
     }, []);
 
     return (
-        <main className="container min-h-screen flex flex-col mx-auto px-12">
-            <section role="grid" className="grid grid-cols-12 gap-10">
-                <h1 className="col-start-2 col-span-10 mt-5 text-4xl font-bold">
+        <main className="container min-h-screen flex flex-col mx-auto px-6 sm:px-12">
+            <section role="grid" className="grid grid-cols-12 gap-y-10">
+                <h1 className="col-start-1 lg:col-start-2 col-span-full lg:col-span-10 mt-5 text-4xl font-bold">
                     Your Issues
                 </h1>
 
                 <Link
                     href={"/repos"}
-                    className="col-start-5 col-span-4 px-5 py-2.5 border border-black rounded text-center font-bold bg-white text-black hover:opacity-50 dark:hover:bg-white dark:hover:text-black transition-all duration-500"
+                    className="col-start-2 md:col-start-4 lg:col-start-5 col-span-10 md:col-span-6 lg:col-span-4 px-5 py-2.5 border border-black rounded text-center font-bold bg-white text-black hover:opacity-50 dark:hover:bg-white dark:hover:text-black transition-all duration-500"
                 >
                     Create an new Issue in your repos
                 </Link>

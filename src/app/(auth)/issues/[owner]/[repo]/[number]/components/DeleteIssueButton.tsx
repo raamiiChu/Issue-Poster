@@ -89,7 +89,7 @@ const DeleteIssueButton = ({ params }: IssueNumberPageParams) => {
 
     return (
         <button
-            className="fixed bottom-10 right-32 p-3 rounded-full text-red-500 bg-white border-2 border-black transition-all hover:text-white hover:bg-red-500"
+            className="fixed bottom-10 right-24 sm:right-32 p-3 rounded-full text-red-500 bg-white border-2 border-black transition-all hover:text-white hover:bg-red-500"
             onClick={handleDelete}
         >
             <FaRegTrashAlt className="text-2xl" />
