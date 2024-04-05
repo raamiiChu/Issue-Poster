@@ -82,8 +82,6 @@ const UpdateIssueModal = ({ params, issue, mutate }: T) => {
     const [open, setOpen] = useState<boolean>(false);
     const { data: session } = useSession();
 
-    // console.log(issue.body);
-    // const html = marked.parse();
     // Define the form.
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
