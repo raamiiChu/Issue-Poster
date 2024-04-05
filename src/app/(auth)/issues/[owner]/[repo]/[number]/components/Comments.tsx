@@ -13,6 +13,8 @@ import { Comment, IssueNumberPageParams } from "@/types";
 import Markdown from "react-markdown";
 import { format } from "date-fns";
 
+import CommentsSkeleton from "./CommentsSkeleton";
+
 const fetcher = async (url: string, token: string) => {
     const { data, status } = await axios.get(url, {
         headers: { Authorization: token },
@@ -41,19 +43,29 @@ const Comments = ({ params }: IssueNumberPageParams) => {
         ],
         ([url, token]) => fetcher(url, token)
     );
-    console.log(comments);
+
+    if (isLoading || isValidating) {
+        return <CommentsSkeleton />;
+    }
+
+    if (error) {
+        return (
+            <p className="col-start-4 col-span-6 my-12 text-3xl text-red-500 text-center font-bold">
+                Failed to Load Data
+            </p>
+        );
+    }
 
     return (
         <ul role="listbox" className="col-start-4 col-span-6 space-y-8">
+            {comments?.length === 0 && (
+                <h2 className="text-3xl text-center">
+                    Oops, there&apos;s no comments in this issue.
+                </h2>
+            )}
+
             {comments?.map((comment) => {
-                const {
-                    id,
-                    html_url,
-                    body,
-                    author_association,
-                    user,
-                    created_at,
-                } = comment;
+                const { id, html_url, body, user, created_at } = comment;
 
                 return (
                     <li

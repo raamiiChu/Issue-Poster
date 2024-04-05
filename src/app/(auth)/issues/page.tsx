@@ -1,18 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 
+import { useInView } from "react-intersection-observer";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 import axios from "axios";
 import useSWR from "swr";
 
-import { format } from "date-fns";
 import { Issue } from "@/types";
-import { BsBoxArrowUpRight } from "react-icons/bs";
+import IssueCards from "./components/IssueCards";
+import Skeleton from "./components/Skeleton";
 
 const fetcher = async (url: string, token: string) => {
     const { data, status } = await axios.get(url, {
@@ -26,6 +26,8 @@ const fetcher = async (url: string, token: string) => {
 
 const Issues = () => {
     const [page, setPage] = useState<number>(1);
+    const [currIssues, setCurrIssues] = useState<Issue[] | []>([]);
+    const [canGetMoreData, setCanGetMoreData] = useState<boolean>(true);
 
     const router = useRouter();
     const { data: session, status } = useSession();
@@ -41,14 +43,48 @@ const Issues = () => {
         ([url, token]) => fetcher(url, token)
     );
 
-    console.log(issues);
-
     if (status === "unauthenticated") {
         router.push("/");
     }
 
+    // infinite scroll
+    const {
+        ref: mutateRef,
+        inView,
+        entry,
+    } = useInView({
+        threshold: 0,
+        delay: 1000,
+    });
+
+    useEffect(() => {
+        // add new repos
+        if (issues) {
+            setCurrIssues((prev) => [...prev, ...issues]);
+
+            if (issues?.length === 0) {
+                setCanGetMoreData(false);
+            }
+        }
+    }, [issues]);
+
+    useEffect(() => {
+        // trigger infintie scroll
+        if (inView && canGetMoreData) {
+            setPage((prev) => prev + 1);
+            mutate();
+        }
+    }, [inView]);
+
+    useEffect(() => {
+        // Clear currRepos when component unmounts
+        return () => {
+            setCurrIssues([]);
+        };
+    }, []);
+
     return (
-        <main className="container min-h-screen flex flex-col mx-auto p-12">
+        <main className="container min-h-screen flex flex-col mx-auto px-12">
             <section role="grid" className="grid grid-cols-12 gap-10">
                 <h1 className="col-start-2 col-span-10 mt-5 text-4xl font-bold">
                     Your Issues
@@ -61,93 +97,32 @@ const Issues = () => {
                     Create an new Issue in your repos
                 </Link>
 
-                <ul className="col-start-3 col-span-8 grid grid-cols-1 gap-y-5">
-                    {issues?.map((issue: Issue, index) => {
-                        const {
-                            id,
-                            number,
-                            title,
-                            html_url,
-                            comments,
-                            created_at,
-                            user,
-                            repository,
-                        } = issue;
+                {/* error message */}
+                {error && (
+                    <div className="col-span-full my-12 text-3xl text-red-500 text-center font-bold">
+                        Failed to Load Data
+                    </div>
+                )}
 
-                        return (
-                            <li
-                                key={id}
-                                className={`p-8 grid grid-cols-12 items-center gap-2.5 rounded-lg ${
-                                    index % 2 === 1
-                                        ? "bg-blue-200 dark:bg-blue-900"
-                                        : "bg-slate-300 dark:bg-slate-800"
-                                }`}
-                            >
-                                <section className="col-span-6 flex gap-x-2.5">
-                                    <Link
-                                        href={`/issues/${repository.full_name}/${number}`}
-                                        title={title}
-                                    >
-                                        <h2
-                                            className="text-xl font-bold line-clamp-1 transition-all hover:underline"
-                                            title={title}
-                                        >
-                                            {title}
-                                        </h2>
-                                    </Link>
-                                    <Link
-                                        href={html_url}
-                                        title={title}
-                                        target="_blank"
-                                        className="flex items-center hover:opacity-50 transition-all"
-                                    >
-                                        <BsBoxArrowUpRight className="text-xl" />
-                                    </Link>
-                                </section>
+                {/* skeleton loading while fetching data */}
+                {(isLoading || isValidating) && canGetMoreData && <Skeleton />}
 
-                                <section className="col-span-6 grid grid-cols-3">
-                                    <Link
-                                        href={`/issues/${repository.full_name}/${number}#comments`}
-                                        className="col-end-4 border border-black rounded text-center bg-white text-black font-bold hover:opacity-50 transition-all duration-500"
-                                    >
-                                        Comments: {comments}
-                                    </Link>
-                                </section>
+                {/* show current data */}
+                <IssueCards issues={currIssues} />
 
-                                <section className="col-span-full flex justify-between">
-                                    <section className="flex items-center gap-x-2.5">
-                                        <span>Created By:</span>
-                                        <Link
-                                            href={user.html_url}
-                                            target="_blank"
-                                            className="size-6 relative hover:opacity-50 transition-all"
-                                        >
-                                            <Image
-                                                src={user.avatar_url}
-                                                fill={true}
-                                                alt={user.login}
-                                                className="rounded-full"
-                                            />
-                                        </Link>
-                                        <Link href={user.html_url}>
-                                            <span className="hover:underline underline-offset-2">
-                                                {user.login}
-                                            </span>
-                                        </Link>
-                                    </section>
+                {/* trigger infinite scroll, if there's more data */}
+                {!error && canGetMoreData && (
+                    <div
+                        ref={mutateRef}
+                        className="col-span-full animate-spin size-12 mx-auto my-12 border-b-4 border-slate-900 dark:border-white rounded-full"
+                    />
+                )}
 
-                                    <small className="text-sm">
-                                        Created At:{" "}
-                                        {format(
-                                            new Date(created_at),
-                                            "yyyy / MM / dd"
-                                        )}
-                                    </small>
-                                </section>
-                            </li>
-                        );
-                    })}
-                </ul>
+                {!error && !canGetMoreData && (
+                    <div className="col-span-full my-12 text-3xl text-center font-bold">
+                        No More Issues
+                    </div>
+                )}
             </section>
         </main>
     );

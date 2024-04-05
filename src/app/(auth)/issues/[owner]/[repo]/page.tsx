@@ -1,30 +1,43 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 
 import axios from "axios";
-import { useSession } from "next-auth/react";
 import useSWR from "swr";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useInView } from "react-intersection-observer";
 
 import { IssuePageParams, Issue } from "@/types";
 
 import PostIssueModal from "./components/PostIssueModal";
-import { BsBoxArrowUpRight } from "react-icons/bs";
+import IssueCards from "./components/IssueCards";
+import Skeleton from "./components/Skeleton";
 
 const fetcher = async (url: string, token: string) => {
-    const { data, status } = await axios.get(url, {
-        headers: { Authorization: token },
-    });
+    try {
+        const { data, status } = await axios.get(url, {
+            headers: { Authorization: token },
+        });
 
-    if (status === 200) {
-        return data as Issue[];
+        if (status === 200) {
+            return data as Issue[];
+        }
+    } catch (error: any) {
+        console.log(error.response);
+        return [];
     }
 };
 
 const IssuePage = ({ params }: IssuePageParams) => {
     const { owner, repo } = params;
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
+    const router = useRouter();
+
+    const [page, setPage] = useState<number>(1);
+    const [currIssues, setCurrIssues] = useState<Issue[] | []>([]);
+    const [canGetMoreData, setCanGetMoreData] = useState<boolean>(true);
 
     const {
         data: issues,
@@ -33,9 +46,52 @@ const IssuePage = ({ params }: IssuePageParams) => {
         isLoading,
         isValidating,
     } = useSWR(
-        [`/api/github/issues/${owner}/${repo}?page=${1}`, session?.accessToken],
+        [
+            `/api/github/issues/${owner}/${repo}?page=${page}`,
+            session?.accessToken,
+        ],
         ([url, token]) => fetcher(url, token)
     );
+
+    if (status === "unauthenticated") {
+        router.push("/");
+    }
+
+    // infinite scroll
+    const {
+        ref: mutateRef,
+        inView,
+        entry,
+    } = useInView({
+        threshold: 0,
+        delay: 1000,
+    });
+
+    useEffect(() => {
+        // add new repos
+        if (issues) {
+            setCurrIssues((prev) => [...prev, ...issues]);
+
+            if (issues?.length === 0) {
+                setCanGetMoreData(false);
+            }
+        }
+    }, [issues]);
+
+    useEffect(() => {
+        // trigger infintie scroll
+        if (inView && canGetMoreData) {
+            setPage((prev) => prev + 1);
+            mutate();
+        }
+    }, [inView]);
+
+    useEffect(() => {
+        // Clear currRepos when component unmounts
+        return () => {
+            setCurrIssues([]);
+        };
+    }, []);
 
     return (
         <main className="container min-h-screen mx-auto px-12 pt-4 pb-16">
@@ -44,17 +100,8 @@ const IssuePage = ({ params }: IssuePageParams) => {
                     Issues in {JSON.stringify(repo)}
                 </h1>
 
-                {issues?.length === 0 && (
-                    <article className="col-span-full space-y-5 text-center">
-                        <h2 className="text-3xl">
-                            Oops, there&apos;s no issues in this repo.
-                        </h2>
-                        <p className="text-xl">You can post a new issue.</p>
-                    </article>
-                )}
-
                 <Link
-                    href={"/"}
+                    href={"/repos"}
                     role="button"
                     className="fixed top-20 left-10 px-5 py-1.5 border border-black rounded bg-white text-black font-bold hover:opacity-50 transition-all duration-500"
                 >
@@ -63,55 +110,41 @@ const IssuePage = ({ params }: IssuePageParams) => {
 
                 <PostIssueModal params={params} />
 
-                <section
-                    role="grid"
-                    className="col-start-2 col-span-10 grid grid-cols-12 gap-x-10 gap-y-16"
-                >
-                    {issues?.map((issue) => {
-                        const { id, number, html_url, title, comments } = issue;
+                {/* error message */}
+                {error && (
+                    <div className="col-span-full my-12 text-3xl text-red-500 text-center font-bold">
+                        Failed to Load Data
+                    </div>
+                )}
 
-                        return (
-                            <article
-                                key={id}
-                                role="gridcell"
-                                className="col-span-4 flex flex-col justify-between gap-y-5 p-6 border-2 rounded border-black dark:border-white"
-                            >
-                                <section className="grid grid-cols-12 justify-between items-center gap-x-4">
-                                    <Link
-                                        className="col-span-8"
-                                        href={`/issues/${owner}/${repo}/${number}`}
-                                    >
-                                        <h2
-                                            title={title}
-                                            className="text-2xl font-bold line-clamp-2 underline-offset-2 hover:underline transition-all"
-                                        >
-                                            {title}
-                                        </h2>
-                                    </Link>
+                {!(isLoading || isValidating) && currIssues?.length === 0 && (
+                    <article className="col-span-full space-y-5 text-center">
+                        <h2 className="text-3xl">
+                            Oops, there&apos;s no issues in this repo.
+                        </h2>
+                        <p className="text-xl">You can post a new issue.</p>
+                    </article>
+                )}
 
-                                    <Link
-                                        className="col-span-2 flex items-center text-2xl"
-                                        href={html_url}
-                                        target="_blank"
-                                    >
-                                        <BsBoxArrowUpRight className="text-black dark:text-white hover:opacity-50 transition-all" />
-                                    </Link>
+                {/* skeleton loading while fetching data */}
+                {(isLoading || isValidating) && canGetMoreData && <Skeleton />}
 
-                                    <span className="col-span-2 text-center">
-                                        # {number}
-                                    </span>
-                                </section>
+                {/* show current data */}
+                <IssueCards issues={currIssues} owner={owner} repo={repo} />
 
-                                <Link
-                                    href={`/issues/${owner}/${repo}/${number}#comments`}
-                                    className="px-5 py-1.5 border border-black rounded bg-white text-black text-center font-bold hover:opacity-50 transition-all duration-500"
-                                >
-                                    Comments: {comments}
-                                </Link>
-                            </article>
-                        );
-                    })}
-                </section>
+                {/* trigger infinite scroll, if there's more data */}
+                {!error && canGetMoreData && (
+                    <div
+                        ref={mutateRef}
+                        className="col-span-full animate-spin size-12 mx-auto my-12 border-b-4 border-slate-900 dark:border-white rounded-full"
+                    />
+                )}
+
+                {!error && !canGetMoreData && currIssues?.length !== 0 && (
+                    <div className="col-span-full my-12 text-3xl text-center font-bold">
+                        No More Issues
+                    </div>
+                )}
             </section>
         </main>
     );

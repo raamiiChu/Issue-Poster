@@ -21,7 +21,6 @@ export const GET = async (request: any, { params }: IssuePageParams) => {
         );
 
         const { data, status } = res;
-
         if (status === 200) {
             return new NextResponse(JSON.stringify(data), { status });
         }

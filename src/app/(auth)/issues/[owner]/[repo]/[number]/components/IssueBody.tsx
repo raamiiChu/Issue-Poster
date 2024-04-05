@@ -13,6 +13,7 @@ import Markdown from "react-markdown";
 
 import UpdateIssueModal from "./UpdateIssueModal";
 import DeleteIssueButton from "./DeleteIssueButton";
+import IssueBodySkeleton from "./IssueBodySkeleton";
 
 import { BsBoxArrowUpRight } from "react-icons/bs";
 
@@ -32,6 +33,7 @@ const IssueBody = ({ params }: IssueNumberPageParams) => {
 
     const {
         data: issue,
+        mutate,
         error,
         isLoading,
         isValidating,
@@ -39,6 +41,18 @@ const IssueBody = ({ params }: IssueNumberPageParams) => {
         [`/api/github/issues/${owner}/${repo}/${number}`, session?.accessToken],
         ([url, token]) => fetcher(url, token)
     );
+
+    if (isLoading || isValidating) {
+        return <IssueBodySkeleton />;
+    }
+
+    if (error) {
+        return (
+            <p className="col-start-4 col-span-6 my-12 text-3xl text-red-500 text-center font-bold">
+                Failed to Load Data
+            </p>
+        );
+    }
 
     return (
         <article role="article" className="col-start-4 col-span-6 space-y-10">
@@ -50,6 +64,7 @@ const IssueBody = ({ params }: IssueNumberPageParams) => {
                 <UpdateIssueModal
                     params={params}
                     issue={{ title: issue?.title, body: issue?.body }}
+                    mutate={mutate}
                 />
             )}
 
