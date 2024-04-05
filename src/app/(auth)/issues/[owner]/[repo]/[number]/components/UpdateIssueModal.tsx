@@ -37,6 +37,20 @@ import { Input } from "@/components/ui/input";
 
 import { FaRegEdit } from "react-icons/fa";
 
+import Swal from "sweetalert2";
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 1500,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+    },
+});
+
 const formSchema = z.object({
     title: z.string().min(1, {
         message: "Title is required.",
@@ -57,9 +71,11 @@ interface T {
         title: string;
         body: string;
     };
+
+    mutate: () => void;
 }
 
-const UpdateIssueModal = ({ params, issue }: T) => {
+const UpdateIssueModal = ({ params, issue, mutate }: T) => {
     const { owner, repo, number } = params;
     const { title, body } = issue;
 
@@ -72,8 +88,8 @@ const UpdateIssueModal = ({ params, issue }: T) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            title: issue?.title,
-            body: marked.parse(issue?.body || ""),
+            title,
+            body: marked.parse(body),
         },
     });
 
@@ -84,6 +100,17 @@ const UpdateIssueModal = ({ params, issue }: T) => {
         const turndownService = new TurndownService();
         const markdown = turndownService.turndown(body);
 
+        Swal.fire({
+            icon: "info",
+            title: "Updating Issue",
+            text: "Please wait...",
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            },
+        });
+
         try {
             const { status } = await axios.patch(
                 `/api/github/issues/${owner}/${repo}/${number}`,
@@ -91,11 +118,27 @@ const UpdateIssueModal = ({ params, issue }: T) => {
                 { headers: { Authorization: session?.accessToken } }
             );
 
+            Swal.close();
+
             if (status === 200) {
-                console.log("OK");
+                Toast.fire({
+                    icon: "success",
+                    title: "Update successfully",
+                });
+
+                mutate();
+
                 setOpen(false);
             }
         } catch (error: any) {
+            Swal.close();
+
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something error",
+            });
+
             console.log(error.response);
         }
     };

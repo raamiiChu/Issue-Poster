@@ -36,6 +36,20 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+import Swal from "sweetalert2";
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 1500,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+    },
+});
+
 const formSchema = z.object({
     title: z.string().min(1, {
         message: "Title is required.",
@@ -67,6 +81,17 @@ const PostIssueModal = ({ params }: IssuePageParams) => {
         const turndownService = new TurndownService();
         const markdown = turndownService.turndown(body);
 
+        Swal.fire({
+            icon: "info",
+            title: "Creating Issue",
+            text: "Please wait...",
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            },
+        });
+
         try {
             const { status } = await axios.post(
                 `/api/github/issues/${owner}/${repo}`,
@@ -74,11 +99,25 @@ const PostIssueModal = ({ params }: IssuePageParams) => {
                 { headers: { Authorization: session?.accessToken } }
             );
 
+            Swal.close();
+
             if (status === 201) {
-                console.log("Created");
+                Toast.fire({
+                    icon: "success",
+                    title: "Create successfully",
+                });
+
                 setOpen(false);
             }
         } catch (error: any) {
+            Swal.close();
+
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something error",
+            });
+
             console.log(error.response);
         }
     };
@@ -136,15 +175,15 @@ const PostIssueModal = ({ params }: IssuePageParams) => {
                                     <FormLabel className="text-lg font-bold">
                                         Body
                                     </FormLabel>
-                                    <FormControl>
+                                    <FormControl className="h-40">
                                         <ReactQuill
                                             theme="snow"
                                             placeholder="body"
                                             {...field}
-                                            className="max-h-40 overflow-y-scroll placeholder:text-slate-400"
+                                            className=" placeholder:text-slate-400"
                                         />
                                     </FormControl>
-                                    <FormDescription>
+                                    <FormDescription className="pt-12">
                                         This is your body.
                                     </FormDescription>
                                     <FormMessage className="text-red-500 font-bold" />
@@ -156,7 +195,7 @@ const PostIssueModal = ({ params }: IssuePageParams) => {
                                 type="submit"
                                 className="px-5 py-2.5 border border-black rounded bg-white text-black font-bold hover:bg-black hover:text-white transition-all duration-500"
                             >
-                                Create
+                                Save changes
                             </Button>
                         </DialogFooter>
                     </form>
