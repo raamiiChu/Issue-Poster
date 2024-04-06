@@ -59,7 +59,15 @@ const formSchema = z.object({
     }),
 });
 
-const PostIssueModal = ({ params }: IssuePageParams) => {
+type T = {
+    params: {
+        owner: string;
+        repo: string;
+    };
+    mutate: () => void;
+};
+
+const PostIssueModal = ({ params, mutate }: T) => {
     const { owner, repo } = params;
 
     const [open, setOpen] = useState<boolean>(false);
@@ -107,6 +115,7 @@ const PostIssueModal = ({ params }: IssuePageParams) => {
                     title: "Create successfully",
                 });
 
+                mutate();
                 setOpen(false);
             }
         } catch (error: any) {

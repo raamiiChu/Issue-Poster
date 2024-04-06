@@ -60,7 +60,7 @@ const IssueBody = ({ params }: IssueNumberPageParams) => {
             className="col-start-1 md:col-start-3 lg:col-start-4 col-span-full md:col-span-8 lg:col-span-6 space-y-10"
         >
             {issue?.author_association === "OWNER" && (
-                <DeleteIssueButton params={params} />
+                <DeleteIssueButton params={params} mutate={mutate} />
             )}
 
             {issue?.author_association === "OWNER" && (

@@ -22,7 +22,16 @@ const Toast = Swal.mixin({
     },
 });
 
-const DeleteIssueButton = ({ params }: IssueNumberPageParams) => {
+type T = {
+    params: {
+        owner: string;
+        repo: string;
+        number: number;
+    };
+    mutate: () => void;
+};
+
+const DeleteIssueButton = ({ params, mutate }: T) => {
     const { owner, repo, number } = params;
 
     const router = useRouter();
@@ -71,6 +80,7 @@ const DeleteIssueButton = ({ params }: IssueNumberPageParams) => {
                         title: "Delete successfully",
                     });
 
+                    mutate();
                     router.push(`/issues/${owner}/${repo}`);
                 }
             } catch (error: any) {

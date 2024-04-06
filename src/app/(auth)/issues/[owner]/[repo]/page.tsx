@@ -102,7 +102,7 @@ const IssuePage = ({ params }: IssuePageParams) => {
                     Issues in {JSON.stringify(repo)}
                 </h1>
 
-                <PostIssueModal params={params} />
+                <PostIssueModal params={params} mutate={mutate} />
 
                 {/* error message */}
                 {error && (
