@@ -8,26 +8,26 @@
 ---
 
 # Table of Contents
-- [Basic Info](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework/edit/master/README.md#basic-info)
+- [Basic Info](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework?tab=readme-ov-file#basic-info)
 
-- [Getting Started](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework/edit/master/README.md#getting-started)
-   - [Visit on Vercel](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework/edit/master/README.md#visit-on-vercel)
-   - [Run on localhost](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework/edit/master/README.md#run-on-localhost)
+- [Getting Started](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework?tab=readme-ov-file#getting-started)
+   - [Visit on Vercel](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework?tab=readme-ov-file#visit-on-vercel)
+   - [Run on localhost](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework?tab=readme-ov-file#run-on-localhost)
    
-- [DEMO](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework/edit/master/README.md#demo)
+- [DEMO](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework?tab=readme-ov-file#demo)
 
-- [Features](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework/edit/master/README.md#features)
-   - [Homepage](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework/edit/master/README.md#homepage)
-   - [`issues`](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework/edit/master/README.md#issues)
-   - [`repos`](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework/edit/master/README.md#repos)
-   - [`/issues/[owner]/[repo]`](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework/edit/master/README.md#issuesownerrepo)
-   - [`/issues/[owner]/[repo]/[number]`](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework/edit/master/README.md#issuesownerreponumber)
+- [Features](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework?tab=readme-ov-file#features)
+   - [Homepage](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework?tab=readme-ov-file#homepage)
+   - [`issues`](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework?tab=readme-ov-file#issues)
+   - [`repos`](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework?tab=readme-ov-file#repos)
+   - [`/issues/[owner]/[repo]`](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework?tab=readme-ov-file#issuesownerrepo)
+   - [`/issues/[owner]/[repo]/[number]`](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework?tab=readme-ov-file#issuesownerreponumber)
 
-- [API](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework/edit/master/README.md#api)
+- [API](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework?tab=readme-ov-file#api)
 
-- [Skills](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework/edit/master/README.md#skills)
+- [Skills](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework?tab=readme-ov-file#skills)
 
-- [Package Used](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework/edit/master/README.md#package-used)
+- [Package Used](https://github.com/raamiiChu/Dcard-Frontend-Intern-Homework?tab=readme-ov-file#package-used)
 
 ---
 
