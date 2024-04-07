@@ -37,6 +37,14 @@
 
 -   Web Page: https://dcard-frontend-intern-homework.vercel.app/
 
+-   Skills:
+    - HTML5
+    - CSS3 / Tailwind CSS
+    - JavaScript ( ES6 ) / TypeScript
+    - React / Next JS
+    - Responsive Web Design
+    - Infinite Scroll / Skeleton Loading
+
 ---
 
 # Getting Started
