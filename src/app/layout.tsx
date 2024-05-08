@@ -6,8 +6,8 @@ import AuthProvider from "@/components/AuthProvider/AuthProvider";
 import { ThemeProvider } from "@/context/ThemeContext";
 
 export const metadata: Metadata = {
-    title: "Dcard Frontend Intern Homework",
-    description: "Dcard Frontend Intern Homework 2024",
+    title: "Issue Poster",
+    description: "Issue Poster 2024 by Ramy Chu",
     authors: { name: "Ramy Chu", url: "https://github.com/raamiiChu" },
 };
 
