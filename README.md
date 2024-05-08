@@ -35,7 +35,7 @@
 
 -   Author: Ramy Chu
 
--   Web Page: https://dcard-frontend-intern-homework.vercel.app/
+-   Web Page: https://issue-poster.vercel.app/
 
 -   Skills:
     - HTML5
@@ -49,7 +49,7 @@
 
 # DEMO
 
-https://github.com/raamiiChu/Issue-Poster/assets/87169493/6612d20d-620b-4511-acc8-40034428076a
+https://github.com/raamiiChu/Issue-Poster/assets/87169493/514907a1-1dd0-42cb-8407-500f7f99a119
 
 ---
 
