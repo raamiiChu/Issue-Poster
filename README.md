@@ -49,7 +49,7 @@
 
 # DEMO
 
-https://github.com/raamiiChu/Issue-Poster/assets/87169493/514907a1-1dd0-42cb-8407-500f7f99a119
+https://github.com/raamiiChu/Issue-Poster/assets/87169493/c0d50fbb-ff5a-4b84-b54f-0b664816ebef
 
 ---
 
@@ -59,7 +59,7 @@ https://github.com/raamiiChu/Issue-Poster/assets/87169493/514907a1-1dd0-42cb-840
 
 Use the following link: 
 
-[**Dcard Frontend Intern Homework**](https://dcard-frontend-intern-homework.vercel.app/)
+[**Issue Poster**](https://issue-poster.vercel.app/)
 
 ## Run on localhost
 
